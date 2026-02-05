@@ -54,7 +54,7 @@ def create_ruffo_agent(checkpointer=None):
     agent = create_react_agent(
         model=llm,
         tools=RUFFO_TOOLS,
-        state_modifier=system_message,  # Inyecta la personalidad
+        prompt=system_message,  # Inyecta la personalidad
         checkpointer=checkpointer,
     )
 
