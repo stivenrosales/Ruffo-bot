@@ -128,7 +128,3 @@ async def health():
         "has_google_creds_json": bool(os.environ.get("GOOGLE_CREDENTIALS_JSON")),
         "has_google_creds_file": os.path.exists(os.environ.get("GOOGLE_CREDENTIALS_PATH", "credentials.json")),
     }
-
-
-# Handler para Vercel
-handler = app
