@@ -25,16 +25,27 @@ def get_sheets_service():
     if _service is not None:
         return _service
 
+    import json
+
     creds = None
     credentials_path = settings.google_credentials_path
     token_path = "token.json"
 
-    # Intentar cargar credenciales de service account primero
-    if credentials_path.endswith(".json") and os.path.exists(credentials_path):
+    # Opción 1: Credenciales desde env var (para Vercel)
+    if settings.google_credentials_json:
         try:
-            # Verificar si es service account
-            import json
+            cred_data = json.loads(settings.google_credentials_json)
+            creds = ServiceAccountCredentials.from_service_account_info(
+                cred_data, scopes=SCOPES
+            )
+            logger.info("Using service account credentials from env var")
+        except Exception as e:
+            logger.error("Error loading credentials from env var", error=str(e))
+            raise
 
+    # Opción 2: Credenciales desde archivo local
+    elif credentials_path.endswith(".json") and os.path.exists(credentials_path):
+        try:
             with open(credentials_path) as f:
                 cred_data = json.load(f)
 
@@ -42,7 +53,7 @@ def get_sheets_service():
                 creds = ServiceAccountCredentials.from_service_account_file(
                     credentials_path, scopes=SCOPES
                 )
-                logger.info("Using service account credentials")
+                logger.info("Using service account credentials from file")
             else:
                 # OAuth credentials
                 if os.path.exists(token_path):
@@ -59,10 +70,12 @@ def get_sheets_service():
 
                     with open(token_path, "w") as token:
                         token.write(creds.to_json())
-                logger.info("Using OAuth credentials")
+                logger.info("Using OAuth credentials from file")
         except Exception as e:
-            logger.error("Error loading credentials", error=str(e))
+            logger.error("Error loading credentials from file", error=str(e))
             raise
+    else:
+        logger.warning("No Google credentials found - Sheets tools will not work")
 
     _service = build("sheets", "v4", credentials=creds)
     return _service

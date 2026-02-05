@@ -110,14 +110,24 @@ async def chat(request: ChatRequest):
         return ChatResponse(response=response, thread_id=thread_id)
 
     except Exception as e:
-        logger.error("Error in chat endpoint", error=str(e))
+        import traceback
+        error_detail = traceback.format_exc()
+        logger.error("Error in chat endpoint", error=str(e), traceback=error_detail)
         raise HTTPException(status_code=500, detail=str(e))
 
 
 @app.get("/api/health")
 async def health():
     """Health check endpoint."""
-    return {"status": "ok", "agent": "ruffo", "platform": "vercel"}
+    import os
+    return {
+        "status": "ok",
+        "agent": "ruffo",
+        "platform": "vercel",
+        "has_openai_key": bool(os.environ.get("OPENAI_API_KEY")),
+        "has_google_creds_json": bool(os.environ.get("GOOGLE_CREDENTIALS_JSON")),
+        "has_google_creds_file": os.path.exists(os.environ.get("GOOGLE_CREDENTIALS_PATH", "credentials.json")),
+    }
 
 
 # Handler para Vercel

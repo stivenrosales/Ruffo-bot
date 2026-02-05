@@ -17,13 +17,20 @@ class Settings(BaseSettings):
     # OpenAI
     openai_api_key: str = Field(..., description="API Key de OpenAI")
 
-    # Telegram
-    telegram_bot_token: str = Field(..., description="Token del bot de Telegram")
+    # Telegram (opcional en Vercel, requerido para Telegram bot)
+    telegram_bot_token: Optional[str] = Field(
+        default=None,
+        description="Token del bot de Telegram",
+    )
 
     # Google Sheets
     google_credentials_path: str = Field(
         default="credentials.json",
         description="Ruta al archivo de credenciales de Google",
+    )
+    google_credentials_json: Optional[str] = Field(
+        default=None,
+        description="JSON de credenciales de Google (para Vercel, alternativa a archivo)",
     )
     google_sheets_id: str = Field(
         default="13LKCH_HHVANAl_KO99-Lrah5AoLLCTDjEJt2YMqco7M",
