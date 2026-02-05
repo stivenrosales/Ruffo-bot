@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#1a1a2e">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Ruffo - Animalicha</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <div class="chat-container">
+        <!-- Header -->
+        <header class="chat-header">
+            <div class="header-content">
+                <span class="logo">🐕</span>
+                <div class="header-text">
+                    <h1>Ruffo</h1>
+                    <span class="subtitle">Animalicha 🎸</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Messages Area -->
+        <main class="messages-container" id="messages">
+            <!-- Welcome message -->
+            <div class="message ruffo">
+                <div class="message-avatar">🐕</div>
+                <div class="message-bubble">¡Guau, guau! 🐾 Soy Ruffo, el perro más rockero de Animalicha 🤘<br>¿En qué te puedo ayudar hoy, humano-amigo?</div>
+            </div>
+        </main>
+
+        <!-- Input Area -->
+        <footer class="input-container">
+            <form id="chat-form" class="input-form">
+                <input
+                    type="text"
+                    id="message-input"
+                    placeholder="Escribe tu mensaje..."
+                    autocomplete="off"
+                    autofocus
+                >
+                <button type="submit" id="send-button" aria-label="Enviar">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+                    </svg>
+                </button>
+            </form>
+        </footer>
+    </div>
+
+    <!-- Loading indicator -->
+    <div class="loading-overlay" id="loading" style="display: none;">
+        <div class="loading-spinner"></div>
+    </div>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>
