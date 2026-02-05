@@ -67,3 +67,4 @@ htmlcov/
 .claude/
 !.claude/settings.json
 !.claude/commands.md
+.env*.local
